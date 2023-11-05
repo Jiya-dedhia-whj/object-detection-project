@@ -1,5 +1,6 @@
 sofa_image = "";
 status = "";
+objects = [];
 
 function preload()
 {
@@ -28,9 +29,23 @@ function gotResults(error,results)
         console.log(error);
     }
     console.log(results);
+    objects = results;
 }
 
 function draw()
 {
     image(sofa_image,0,0,640,420);
+
+    if(status != "")
+    {
+        for(i = 0; i < objects.length; i++)
+        {
+           document.getElementById("status").innerHTML = "Status : Object Dectected";
+           fill("red");
+           percent = floor(objects[i].confidence * 100);
+           text(objects[i].label + "" + percent + "%" ,objects[i].x , objects[i].y);
+           noFill();
+           rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+        }
+    }
 }
